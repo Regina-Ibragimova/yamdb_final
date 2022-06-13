@@ -19,9 +19,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'rest_framework_simplejwt',
-    'api',
-    'reviews.apps.ReviewsConfig',
-    'users',
+    'api_yamdb.api',
+    'api_yamdb.reviews.apps.ReviewsConfig',
+    'api_yamdb.users',
 ]
 
 MIDDLEWARE = [

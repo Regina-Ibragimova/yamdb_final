@@ -102,6 +102,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
           script: |
             docker stop $(docker ps -q)
             docker container rm $(docker container ls -aq)

@@ -16,7 +16,7 @@ services:
     - ./.env
 
   web:
-    image: sorochinskii/yamdb_final:latest
+    image: reginaibragimova/yamdb_final:latest
     container_name: yamdb_final
     restart: always
     depends_on:

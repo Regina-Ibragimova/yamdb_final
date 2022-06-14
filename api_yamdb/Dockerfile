@@ -1,11 +1,17 @@
-FROM python:3.7-slim
+# создать образ на основе базового слоя python (там будет ОС и интерпретатор Python)
+FROM python:3.8.5
 
-WORKDIR /app
+# рабочая директория
+WORKDIR /code
 
-COPY requirements.txt /app
+# скопировать файл requirements.txt из директории, в которой лежит докерфайл, в директорию /code
+COPY requirements.txt .
 
-RUN pip3 install -r /app/requirements.txt --no-cache-dir
+# выполнить команду (как в терминале, с тем же синтаксисом) для установки пакетов из requirements.txt
+RUN pip install --upgrade pip && pip install -r ./requirements.txt
 
-COPY api_yamdb/ /app
+# скопировать всё содержимое директории, в которой лежит докерфайл, в директорию /code
+COPY . .
 
-CMD ["gunicorn", "api_yamdb.wsgi:application", "--bind", "0:8000" ] 
+# при старте контейнера выполнить runserver
+CMD gunicorn api_yamdb.wsgi:application --bind 0.0.0.0:8000

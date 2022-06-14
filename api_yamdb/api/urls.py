@@ -7,7 +7,6 @@ from .views import (CategoryViewSet, CommentViewSet, GenreViewSet,
 app_name = 'api'
 
 router = DefaultRouter()
-
 router.register('titles', TitleViewSet)
 router.register('users', UserViewSet, basename='users')
 router.register(

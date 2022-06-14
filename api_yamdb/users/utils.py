@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 
 from api_yamdb.api_yamdb.settings import ADMIN_EMAIL_ADDRESS  # isort:skip
-from users.models import User  # isort:skip
+from users.models import User
 
 
 def sent_confirmation_code(username):

@@ -1,56 +1,29 @@
 import os
 from datetime import timedelta
-from pathlib import Path
 
-import environ
-
-env = environ.Env()
-environ.Env.read_env()
-
-BASE_DIR = Path(__file__).resolve().parent.parent
-
-if str(BASE_DIR) == '/yamdb_final_code':
-    DEBUG = False
-else:
-    DEBUG = True
-
-if not DEBUG:
-    SECRET_KEY = os.environ.get('SECRET_KEY')
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1', os.environ.get('IP_ADDRESS')]
-    DATABASES = {
-        'default': {
-            'ENGINE': os.environ.get('DB_ENGINE'),
-            'NAME': os.environ.get('DB_NAME'),
-            'USER': os.environ.get('POSTGRES_USER'),
-            'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-            'HOST': os.environ.get('DB_HOST'),
-            'PORT': os.environ.get('DB_PORT'),
-        }
-    }
-else:
-    SECRET_KEY = '&=-4pb%_b5=7j#6%_6rv-6v!#02$c)&a26)m^&9hhnn1axf%z&'
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1', os.environ.get('IP_ADDRESS')]
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = 'p&l%385148kslhtyn^##a1)ilz@4zqj=rq&agdol^##zgl9(vs'
 
+DEBUG = False
+
 ALLOWED_HOSTS = ['*']
 
+
 INSTALLED_APPS = [
+    'rest_framework'
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
     'django_filters',
-    'api',
+    'rest_framework_simplejwt',
+
+    'api_yamdb.api',
+    'api_yamdb.reviews.apps.ReviewsConfig',
+    'api_yamdb.users',
 ]
 
 MIDDLEWARE = [
@@ -84,14 +57,30 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'api_yamdb.wsgi.application'
 
+DATABASES = {
+    'default': {
+        'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
+    }
+}
+
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': f'django.contrib.auth.password_validation.{name}'}
-    for name in [
-        'UserAttributeSimilarityValidator',
-        'MinimumLengthValidator',
-        'CommonPasswordValidator',
-        'NumericPasswordValidator',
-    ]
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
 ]
 
 LANGUAGE_CODE = 'en-us'
@@ -104,53 +93,39 @@ USE_L10N = True
 
 USE_TZ = True
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'files', 'media')
-
-MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
 
-# STATICFILES_DIRS = os.path.join(BASE_DIR, 'files', 'static'),
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'files', 'static')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-)
+AUTH_USER_MODEL = 'users.User'
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
 
 REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ],
-    'DEFAULT_FILTER_BACKENDS': [
-        'django_filters.rest_framework.DjangoFilterBackend',
-    ],
+
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 100,
+    'PAGE_SIZE': 10,
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=60)
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=3),
+    'AUTH_HEADER_TYPES': ('Bearer',),
 }
 
-AUTH_USER_MODEL = 'api.User'
+PAGINATOR_PAGE_ITEMS_COUNT = 10
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
-EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
-
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS')
-
-EMAIL_HOST = os.environ.get('EMAIL_HOST')
-
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
-
-EMAIL_PORT = os.environ.get('EMAIL_PORT')
-
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+ADMIN_EMAIL_ADDRESS = 'info@api_yamdb.com'

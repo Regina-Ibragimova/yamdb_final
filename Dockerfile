@@ -4,9 +4,6 @@ WORKDIR /yamdb_final_code
 
 COPY requirements.txt .
 
-
-# COPY redoc/redoc.yaml files/static/
-
 RUN pip install -r requirements.txt
 
 COPY . .

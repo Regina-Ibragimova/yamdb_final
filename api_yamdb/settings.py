@@ -4,15 +4,20 @@ from pathlib import Path
 
 import environ
 
+from dotenv import load_dotenv
+dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
+
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
+
+SECRET_KEY = 'SECRET_KEY'
+
 env = environ.Env()
 environ.Env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 DEBUG = False
-
-
-SECRET_KEY = 'p&l%385148kslhtyn^##a1)ilz@4zqj=rq&agdol^##zgl9(vs'
 
 ALLOWED_HOSTS = ['*']
 

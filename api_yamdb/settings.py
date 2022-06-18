@@ -10,7 +10,7 @@ dotenv_path = os.path.join(os.path.dirname(__file__), '.env')
 if os.path.exists(dotenv_path):
     load_dotenv(dotenv_path)
 
-SECRET_KEY = 'SECRET_KEY'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 env = environ.Env()
 environ.Env.read_env()
@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', '84.252.136.58', 'localhost', 'yamdbpraktika.hopto.org']
 
 INSTALLED_APPS = [
     'django.contrib.admin',

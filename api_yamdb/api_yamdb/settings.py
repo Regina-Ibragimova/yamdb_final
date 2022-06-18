@@ -13,7 +13,8 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     'itapekhinyatube.ddns.net',
-    '51.250.103.21'
+    '51.250.103.21',
+    'web'
 ]
 
 
@@ -63,6 +64,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'api_yamdb.wsgi.application'
 
 load_dotenv('/home/dev/infra_sp2/infra/.env')
+
 DATABASES = {
     'default': {
         'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql'),

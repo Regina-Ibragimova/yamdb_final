@@ -1,5 +1,5 @@
 # yamdb_final
-![example workflow](https://github.com/Regina-Ibragimova/yamdb_final/actions/workflows/yamdb_workflow.yml/badge.svg)
+![Status workflow](https://github.com/Regina-Ibragimova/yamdb_final/actions/workflows/yamdb_workflow.yaml/badge.svg)
 
 ## Проект YaMDb
 Проект YaMDb собирает отзывы (Review) пользователей на произведения (Title). 

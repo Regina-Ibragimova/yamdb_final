@@ -19,9 +19,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['*', '84.252.136.58', 'localhost', 'yamdbpraktika.hopto.org']
+ALLOWED_HOSTS = ['*', '127.0.0.1', '84.252.136.58', 'localhost', 'practikayamdb.ddns.net']
 
 INSTALLED_APPS = [
+    'django',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

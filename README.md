@@ -53,4 +53,4 @@
 - [Docker 20.10.6](https://www.docker.com/)
 
 
-Рабочий проект находится по адресу http://yamdbpraktika.hopto.org/
+Рабочий проект находится по адресу https://practikayamdb.ddns.net/redoc
